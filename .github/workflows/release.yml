@@ -1,0 +1,19 @@
+# Pushed annotated tags from `bun run scripts/version.ts` must match manifests.
+name: Release tag check
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "latest"
+      - run: bun install --frozen-lockfile
+      - name: Assert tag matches Go / TS / Python versions
+        run: bun run scripts/verify-versions.ts --expect "${GITHUB_REF_NAME}"

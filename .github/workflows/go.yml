@@ -1,0 +1,28 @@
+name: Go
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "latest"
+      - run: bun install --frozen-lockfile
+      - run: bun run scripts/verify-versions.ts
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.25.0"
+      - run: bun run check:go
+      - name: Integration tests
+        if: github.event_name == 'push'
+        run: go test -tags integration ./...
+        working-directory: sdks/go
+        env:
+          E2B_API_KEY: ${{ secrets.E2B_API_KEY }}
+          DAYTONA_API_KEY: ${{ secrets.DAYTONA_API_KEY }}

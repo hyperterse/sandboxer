@@ -1,0 +1,20 @@
+name: Publish Python SDK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "latest"
+      - run: bun install --frozen-lockfile
+      - run: bun run scripts/verify-versions.ts
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Build and verify
+        run: bun run build:python

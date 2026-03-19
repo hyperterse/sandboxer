@@ -1,0 +1,26 @@
+# https://lefthook.dev/configuration/
+# Install hooks: bun install (runs prepare) or bunx lefthook install
+
+pre-commit:
+  parallel: true
+  commands:
+    verify-versions:
+      run: bun run scripts/verify-versions.ts
+
+    gofmt:
+      glob: "*.go"
+      exclude:
+        - vendor/**
+      run: gofmt -w {staged_files}
+      stage_fixed: true
+
+    ruff-format:
+      glob: "*.py"
+      run: node scripts/ruff-format.cjs {staged_files}
+      stage_fixed: true
+
+    prettier:
+      glob: "*.{ts,tsx,mts,cts}"
+      # Uses local Prettier from root node_modules (run `bun install` first)
+      run: bunx prettier --write {staged_files}
+      stage_fixed: true
