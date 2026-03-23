@@ -1,22 +1,67 @@
 # Publish TypeScript (npm) and Python (PyPI) SDKs.
 #
 # Triggers:
-# - workflow_dispatch: manual publish from the selected ref (typically main).
-# - workflow_run: after "Release tag check" succeeds (tag push → verify → then publish).
+# - workflow_dispatch: choose SDKs via inputs (defaults: both). Ref is usually main.
+# - workflow_run: after "Release tag check" succeeds — publishes both SDKs.
 #
 # Required repo secrets: NPM_TOKEN, PYPI_API_TOKEN
-name: Publish SDKs
+name: Publish
 
 on:
   workflow_dispatch:
+    inputs:
+      publish_typescript:
+        description: Publish TypeScript SDK to npm (@hyperterse/sandboxer)
+        type: boolean
+        default: true
+      publish_python:
+        description: Publish Python SDK to PyPI (hyperterse-sandboxer)
+        type: boolean
+        default: true
   workflow_run:
     workflows: ["Release tag check"]
     types:
       - completed
 
 jobs:
-  publish:
-    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+  publish-typescript:
+    if: github.event_name == 'workflow_run' || (github.event_name == 'workflow_dispatch' && inputs.publish_typescript)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout (manual)
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/checkout@v4
+
+      - name: Checkout (release tag commit)
+        if: github.event_name == 'workflow_run'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "latest"
+
+      - uses: actions/setup-node@v4
+        with:
+          registry-url: https://registry.npmjs.org
+
+      - name: Install and verify versions
+        run: bun install --frozen-lockfile && bun run scripts/verify-versions.ts
+
+      - name: Build TypeScript SDK
+        run: bun run build:typescript
+
+      - name: Publish to npm
+        working-directory: sdks/typescript
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  publish-python:
+    if: github.event_name == 'workflow_run' || (github.event_name == 'workflow_dispatch' && inputs.publish_python)
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -39,27 +84,14 @@ jobs:
         with:
           python-version: "3.11"
 
-      - uses: actions/setup-node@v4
-        with:
-          registry-url: https://registry.npmjs.org
-
       - name: Install and verify versions
         run: bun install --frozen-lockfile && bun run scripts/verify-versions.ts
-
-      - name: Build TypeScript SDK
-        run: bun run build:typescript
 
       - name: Build Python package
         working-directory: sdks/python
         run: |
           python3 -m pip install --upgrade pip build twine
           python3 -m build
-
-      - name: Publish to npm
-        working-directory: sdks/typescript
-        run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish to PyPI
         working-directory: sdks/python
