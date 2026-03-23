@@ -124,7 +124,7 @@ No Ruff in PATH? Run `bun run scripts/ensure-ruff.ts` or install Ruff globally.
 |----------|------|
 | **Go** | Version guard, vet, test (integration on `main` push when secrets exist) |
 | **Release tag** | Tag `v*` must match root `package.json`, `sdks/go/core/version.go`, SDK versions |
-| **Publish** | Manual npm (**`@hyperterse/sandboxer`**) + PyPI (**`hyperterse-sandboxer`**) via `publish-ts.yml`, `publish-py.yml` |
+| **Publish** | npm (**`@hyperterse/sandboxer`**) + PyPI (**`hyperterse-sandboxer`**) via `publish.yml` (**workflow_dispatch** or after **Release tag check** succeeds) |
 
 ## Security
 
