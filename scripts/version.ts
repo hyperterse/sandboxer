@@ -287,7 +287,7 @@ if (!noCommit && !skipManifestUpdate) {
   console.log("");
   console.log("💾 Committing release version bump...");
   await $`git add sdks/go/core/version.go sdks/typescript/package.json sdks/python/pyproject.toml`;
-  await $`git commit -m ${`chore: release v${newVersion}`}`;
+  await $`git commit -m ${`v${newVersion}`}`;
   console.log("   ✓ Committed");
 }
 
