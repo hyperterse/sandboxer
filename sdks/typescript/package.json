@@ -1,5 +1,5 @@
 {
-  "name": "sandboxer",
+  "name": "@hyperterse/sandboxer",
   "version": "0.1.0",
   "description": "Unified sandbox client for E2B, Daytona, Blaxel, Runloop, Fly Machines, and local Docker",
   "license": "Apache-2.0",

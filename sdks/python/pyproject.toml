@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "sandboxer"
+name = "hyperterse-sandboxer"
 version = "0.1.0"
 description = "Unified sandbox client for E2B, Daytona, Blaxel, Runloop, Fly Machines, and local Docker"
 readme = "README.md"
