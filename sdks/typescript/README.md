@@ -6,12 +6,12 @@ is no Sandboxer cloud service between your code and the host.
 
 ## Package name
 
-The published npm package name is **`sandboxer`** (see [`package.json`](package.json)).
+The published npm package is **`@hyperterse/sandboxer`** (see [`package.json`](package.json)).
 
 ## Install
 
 ```bash
-npm install sandboxer
+npm install @hyperterse/sandboxer
 ```
 
 From a clone of the monorepo (Bun workspace at the repository root):
@@ -28,7 +28,7 @@ You can also install from `sdks/typescript` with npm after `npm install` and
 ## Usage
 
 ```typescript
-import { Sandboxer } from "sandboxer";
+import { Sandboxer } from "@hyperterse/sandboxer";
 
 const client = new Sandboxer({
   provider: "e2b",

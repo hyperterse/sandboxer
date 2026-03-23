@@ -1,6 +1,6 @@
 # TypeScript API reference
 
-This page documents the **`sandboxer`** package
+This page documents the **`@hyperterse/sandboxer`** npm package
 ([`sdks/typescript/src`](../sdks/typescript/src/)).
 
 You pick a **provider** name (for example `e2b` or `local`). The client talks
@@ -10,7 +10,7 @@ server. You need a global **`fetch`** (Node 18+, Bun, or browsers that expose
 `fetch`).
 
 ```typescript
-import { Sandboxer } from "sandboxer";
+import { Sandboxer } from "@hyperterse/sandboxer";
 
 const client = new Sandboxer({
   provider: "e2b",

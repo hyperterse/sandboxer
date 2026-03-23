@@ -6,8 +6,10 @@ cloud service between your code and the host.
 
 ## Install
 
+Published on PyPI as **`hyperterse-sandboxer`**; the import package is **`sandboxer`**.
+
 ```bash
-pip install sandboxer
+pip install hyperterse-sandboxer
 ```
 
 From a clone of the repository:

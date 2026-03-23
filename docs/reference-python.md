@@ -1,7 +1,8 @@
 # Python API reference
 
-This page documents the **`sandboxer`** package
-([`sdks/python/src/sandboxer`](../sdks/python/src/sandboxer/)).
+This page documents the **`sandboxer`** import package
+([`sdks/python/src/sandboxer`](../sdks/python/src/sandboxer/)). On PyPI the
+distribution is **`hyperterse-sandboxer`** (`pip install hyperterse-sandboxer`).
 
 You pick a **provider** name (for example `e2b` or `local`). The client talks
 to that host over **HTTPS** with the vendor’s authentication, or runs the

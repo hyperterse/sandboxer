@@ -358,7 +358,7 @@ const data: Record<string, ExampleSpec> = {
     prereq_py: [
       "Python 3.10 or newer.",
       "Docker installed and the daemon running; ``docker info`` must succeed.",
-      "The script prepends ``sdks/python/src`` to ``PYTHONPATH`` so you can run from a clone without installing the package from PyPI.",
+      "The script prepends ``sdks/python/src`` to ``PYTHONPATH`` so you can run from a clone without installing ``hyperterse-sandboxer`` from PyPI.",
     ],
     prereq_ts: [
       "Node.js 18 or newer with ``npx``, or Bun to run TypeScript directly.",

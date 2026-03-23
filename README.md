@@ -48,8 +48,8 @@ need isolated environments without maintaining one integration per vendor.
 
 ```bash
 go get github.com/hyperterse/sandboxer/sdks/go   # version: see sdks/go/go.mod
-pip install sandboxer                            # Python 3.10+
-npm install sandboxer                            # when published; see sdks/typescript/README.md
+pip install hyperterse-sandboxer               # Python 3.10+; import package is still `sandboxer`
+npm install @hyperterse/sandboxer                # see sdks/typescript/README.md
 ```
 
 From a clone of this repository: run `bun install`, `bun run install:python`,
@@ -87,8 +87,8 @@ Copy-paste examples and full APIs live in each language reference and under
 | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
 | Local sandbox does not start            | Confirm `docker info` succeeds on the host.                                                                                  |
 | 401 or 403 from the host                | Match API key, token, and base URL to that vendor’s documentation.                                                           |
-| Python `ModuleNotFoundError: sandboxer` | Run `pip install -e ./sdks/python` or `pip install sandboxer`.                                                               |
-| TypeScript import errors                | Build `sdks/typescript` or install the package name from `sdks/typescript/package.json`.                                     |
+| Python `ModuleNotFoundError: sandboxer` | Run `pip install -e ./sdks/python` or `pip install hyperterse-sandboxer`.                                                    |
+| TypeScript import errors                | Build `sdks/typescript` or `npm install @hyperterse/sandboxer` (see `sdks/typescript/package.json`).                         |
 
 Local development and CI: [CONTRIBUTING.md](CONTRIBUTING.md).
 
