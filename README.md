@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="assets/og.png" alt="Sandboxer - Unified Sandbox Client" />
+
 # Sandboxer
 
 **One way to work with remote sandboxes** from your application. Pick a host
