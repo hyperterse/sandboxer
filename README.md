@@ -23,6 +23,19 @@ local sandboxes).
 Use it when you are building **automation, agents, CI, or internal tools** that
 need isolated environments without maintaining one integration per vendor.
 
+## Why Sandboxer
+
+- 🧠 **One mental model** — Create sandboxes, run commands, and manage files the
+  same way in Go, Python, and TypeScript.
+- 🔌 **Many hosts, one surface** — Switch between E2B, Daytona, Blaxel, Runloop,
+  Fly Machines, or local Docker without rewriting your integration.
+- 🛤️ **No extra hop** — Your app talks straight to each provider; Sandboxer is
+  not a hosted proxy in the middle.
+- 🔑 **Your secrets, your boundary** — API keys and tokens go to the vendor (or
+  your machine for local runs), not through a separate Sandboxer service.
+- 📚 **Typed SDKs and examples** — References and runnable examples per
+  language so you can ship quickly and debug with confidence.
+
 ## Documentation
 
 | Language   | Reference                                 | Examples                                    |
@@ -62,120 +75,16 @@ Exact environment variables and headers live in each provider under
 `sdks/*/providers/`. Treat API keys like any other secret: store them in your
 secret manager or environment, not in source control.
 
-## Quick start: Go
+## Quick start
 
-```go
-import (
-    "context"
-    "fmt"
-    "log"
-
-    "github.com/hyperterse/sandboxer/sdks/go"
-    _ "github.com/hyperterse/sandboxer/sdks/go/providers"
-)
-
-func main() {
-    ctx := context.Background()
-    p, err := sandboxer.NewProvider(sandboxer.Config{Provider: sandboxer.ProviderLocal})
-    if err != nil {
-        log.Fatal(err)
-    }
-    defer p.Close()
-
-    sb, _, err := p.CreateSandbox(ctx, sandboxer.CreateSandboxRequest{
-        Provider: sandboxer.ProviderLocal,
-    })
-    if err != nil {
-        log.Fatal(err)
-    }
-    defer sb.Kill(ctx)
-
-    res, err := sb.RunCommand(ctx, sandboxer.RunCommandRequest{Cmd: "echo hello"})
-    if err != nil {
-        log.Fatal(err)
-    }
-    fmt.Print(res.Stdout)
-}
-```
-
-Change `Provider` and environment variables to target a cloud host. See
-[Configuration (Go)](#configuration-go) and [examples/go](examples/go).
-
-## Quick start: Python
-
-```python
-import os
-from sandboxer import Sandboxer, RunCommandRequest
-
-client = Sandboxer(
-    "e2b",
-    {
-        "api_key": os.environ["E2B_API_KEY"],
-        "base_url": os.environ.get("E2B_API_BASE", "https://api.e2b.app"),
-    },
-)
-sb, info = client.create_sandbox()
-try:
-    print(sb.run_command(RunCommandRequest(cmd="echo hello")).stdout)
-finally:
-    sb.kill()
-    client.close()
-```
-
-For async code, use **`AsyncSandboxer`**. To work from a clone, run
-`pip install -e ./sdks/python` (see [sdks/python/README.md](sdks/python/README.md)).
-
-## Quick start: TypeScript
-
-```typescript
-import { Sandboxer } from "sandboxer";
-
-const client = new Sandboxer({
-  provider: "e2b",
-  config: {
-    apiKey: process.env.E2B_API_KEY!,
-    baseUrl: process.env.E2B_API_BASE ?? "https://api.e2b.app",
-  },
-});
-const [sb, info] = await client.createSandbox({ timeoutSeconds: 600 });
-try {
-  console.log(
-    (await sb.runCommand({ cmd: "echo hello from typescript" })).stdout,
-  );
-} finally {
-  await sb.kill();
-  await client.close();
-}
-```
-
-Types and errors ship from the same module; see
-[docs/reference-typescript.md](docs/reference-typescript.md).
-
-## Files and binary payloads
-
-Some providers send file bodies as **base64** inside JSON. In **Go**, file APIs
-use **`[]byte`**. Behavior depends on the host you choose.
-
-## Errors and feature coverage
-
-Python and TypeScript raise typed errors (see `sandboxer.errors` in the Python
-package and `errors.ts` in TypeScript). **Go** uses values such as
-**`sandboxer.ErrNotSupported`** in
-[`sdks/go/core/errors.go`](sdks/go/core/errors.go). Not every method is
-available on every provider; handle errors and check support for your workload.
-
-## Configuration (Go)
-
-[`sandboxer.Config`](sdks/go/core/config.go) reads **`SANDBOXER_PROVIDER`**,
-**`SANDBOXER_API_KEY`**, **`SANDBOXER_BASE_URL`**, **`SANDBOXER_DEFAULT_TIMEOUT`**,
-and optional TLS or OAuth-related variables. Details:
-[Go reference — Configuration](docs/reference-go.md#configuration).
+Copy-paste examples and full APIs live in each language reference and under
+`examples/` for [Go](examples/go/), [Python](examples/python/), and
+[TypeScript](examples/typescript/).
 
 ## Troubleshooting
 
 | What you see                            | What to try                                                                                                                  |
 | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| Go `unknown provider`                   | Set `SANDBOXER_PROVIDER` to `local`, `e2b`, `daytona`, `runloop`, `fly-machines`, or `blaxel`, and blank-import `providers`. |
 | Local sandbox does not start            | Confirm `docker info` succeeds on the host.                                                                                  |
 | 401 or 403 from the host                | Match API key, token, and base URL to that vendor’s documentation.                                                           |
 | Python `ModuleNotFoundError: sandboxer` | Run `pip install -e ./sdks/python` or `pip install sandboxer`.                                                               |
