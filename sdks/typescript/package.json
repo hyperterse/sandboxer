@@ -2,6 +2,7 @@
   "name": "sandboxer",
   "version": "0.0.0",
   "description": "Unified sandbox client for E2B, Daytona, Blaxel, Runloop, Fly Machines, and local Docker",
+  "license": "Apache-2.0",
   "keywords": [
     "ai-agents",
     "agent-sdk",

@@ -5,7 +5,37 @@ build-backend = "hatchling.build"
 [project]
 name = "sandboxer"
 version = "0.0.0"
-description = "Unified sandbox SDK for multiple cloud providers"
+description = "Unified sandbox client for E2B, Daytona, Blaxel, Runloop, Fly Machines, and local Docker"
+readme = "README.md"
+license = "Apache-2.0"
+keywords = [
+  "ai-agents",
+  "agent-sdk",
+  "automation",
+  "blaxel",
+  "ci-cd",
+  "cloud",
+  "cloud-sandbox",
+  "daytona",
+  "developer-tools",
+  "devtools",
+  "docker",
+  "e2b",
+  "fly-machines",
+  "go",
+  "local-sandbox",
+  "multi-provider",
+  "nodejs",
+  "python",
+  "remote-sandbox",
+  "runloop",
+  "sandbox",
+  "sandbox-sdk",
+  "sdk",
+  "typescript",
+  "unified-api",
+  "unified-sdk",
+]
 requires-python = ">=3.10"
 dependencies = [
     "httpx>=0.27",
