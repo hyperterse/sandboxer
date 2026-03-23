@@ -2,4 +2,4 @@
 package core
 
 // Version is the release semver (aligned with published Python and TypeScript packages).
-const Version = "0.0.0"
+const Version = "0.1.0"
