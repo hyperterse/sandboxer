@@ -16,7 +16,7 @@ pre-commit:
 
     ruff-format:
       glob: "*.py"
-      run: node scripts/ruff-format.cjs {staged_files}
+      run: bun run scripts/ruff-format.ts {staged_files}
       stage_fixed: true
 
     prettier:

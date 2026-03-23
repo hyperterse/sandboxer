@@ -12,7 +12,7 @@
     }
   },
   "scripts": {
-    "postinstall": "lefthook install && node scripts/ensure-ruff.cjs",
+    "postinstall": "lefthook install && bun run scripts/ensure-ruff.ts",
 
     "install:go": "cd sdks/go && go mod download",
     "install:python": "cd sdks/python && python3 -m pip install -e .",

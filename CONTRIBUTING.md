@@ -85,7 +85,7 @@ bun run hooks
 # or: bunx lefthook install
 ```
 
-No Ruff in PATH? Run `node scripts/ensure-ruff.cjs` or install Ruff globally.
+No Ruff in PATH? Run `bun run scripts/ensure-ruff.ts` or install Ruff globally.
 
 ## Code style
 
